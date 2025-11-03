@@ -1,0 +1,2112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sustainably grown, hand-harvested, and delivered with care—from our fields to your table." />
+    <meta name="theme-color" content="#2d5016" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Mujisunge Farm" />
+    <link rel="apple-touch-icon" href="LOGO.jpg" />
+    <link rel="manifest" href="manifest.json" />
+    <title>Mujisunge Farm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* === Loader === */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c28 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader-wrapper.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(255, 255, 255, 0.2);
+            border-top: 8px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-text {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            font-family: 'Poppins', sans-serif;
+            animation: pulse 1.5s ease-in-out infinite;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* === Fade-in Animations === */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+        .stagger-6 { transition-delay: 0.6s; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: #2d3748;
+            background-color: #fff;
+            transition: background-color 0.3s, color 0.3s;
+            font-weight: 400;
+        }
+
+        /* === Dark Theme === */
+        body.dark-theme {
+            background-color: #121826;
+            color: #e2e8f0;
+        }
+        body.dark-theme header {
+            background: linear-gradient(135deg, #1a2910 0%, #2d4520 100%);
+        }
+        body.dark-theme .hero-slide::before {
+            background: rgba(0, 0, 0, 0.6);
+        }
+        body.dark-theme h2,
+        body.dark-theme .product-info h3,
+        body.dark-theme .about-text h3,
+        body.dark-theme .contact-info h3 {
+            color: #81c784;
+        }
+        body.dark-theme .section-subtitle,
+        body.dark-theme .product-info p,
+        body.dark-theme .about-text p {
+            color: #cbd5e0;
+        }
+        body.dark-theme .product-card,
+        body.dark-theme .contact-form,
+        body.dark-theme .contact-info {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+        body.dark-theme .form-group input,
+        body.dark-theme .form-group textarea {
+            background: #0f172a;
+            color: #e2e8f0;
+            border-color: #334155;
+        }
+        body.dark-theme .form-group label {
+            color: #e2e8f0;
+        }
+        body.dark-theme footer {
+            background: #1a2910;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        /* === Header === */
+        header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c28 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-image {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.8rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #a7d9b1;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            padding: 0.55rem 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.03);
+        }
+
+        /* === Hero === */
+        .hero {
+            position: relative;
+            height: 100vh;
+            height: calc(var(--vh, 1vh) * 100);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-slideshow, .hero-slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        .hero-slide {
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(45, 80, 22, 0.7), rgba(0, 0, 0, 0.5));
+            z-index: 1;
+        }
+
+        /* Local farm background images */
+        .slide1 { 
+            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('1.jpg') center/cover no-repeat; 
+        }
+        .slide2 { 
+            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('2.jpg') center/cover no-repeat; 
+        }
+        .slide3 { 
+            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('3.jpg') center/cover no-repeat; 
+        }
+        .slide4 { 
+            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('4.jpg') center/cover no-repeat; 
+        }
+
+        .hero-content {
+            position: relative; z-index: 2;
+            text-align: center; color: white;
+            padding: 2rem; max-width: 800px;
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            color: #ffffff;
+            text-shadow: 
+                2px 2px 0px rgba(45, 80, 22, 0.8),
+                4px 4px 0px rgba(45, 80, 22, 0.6),
+                6px 6px 0px rgba(45, 80, 22, 0.4),
+                8px 8px 20px rgba(0, 0, 0, 0.9),
+                0 0 40px rgba(255, 255, 255, 0.5);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #a7d9b1 50%, #ffffff 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 6s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+
+        @keyframes titlePulse {
+            0%, 100% {
+                transform: scale(1);
+                text-shadow: 
+                    2px 2px 0px rgba(45, 80, 22, 0.8),
+                    4px 4px 0px rgba(45, 80, 22, 0.6),
+                    6px 6px 0px rgba(45, 80, 22, 0.4),
+                    8px 8px 20px rgba(0, 0, 0, 0.9),
+                    0 0 40px rgba(255, 255, 255, 0.5);
+            }
+            50% {
+                transform: scale(1.02);
+                text-shadow: 
+                    2px 2px 0px rgba(45, 80, 22, 0.9),
+                    4px 4px 0px rgba(45, 80, 22, 0.7),
+                    6px 6px 0px rgba(45, 80, 22, 0.5),
+                    8px 8px 25px rgba(0, 0, 0, 1),
+                    0 0 60px rgba(255, 255, 255, 0.7);
+            }
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            text-shadow: 2px 3px 10px rgba(0,0,0,0.8);
+            line-height: 1.8;
+            font-weight: 500;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+            letter-spacing: 0.3px;
+            color: #ffffff;
+            opacity: 0.95;
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid rgba(255,255,255,0.8);
+            white-space: nowrap;
+            margin: 0 auto;
+            display: inline-block;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            animation: typing 5s steps(120, end) 1.5s 1 normal both,
+                       blink-caret 1s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { 
+                width: 0;
+                max-width: 0;
+            }
+            to { 
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: rgba(255,255,255,0.9); }
+        }
+        
+        .typewriter-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c28 100%);
+            color: white;
+            padding: 1.2rem 3.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(45, 80, 22, 0.4), 0 0 20px rgba(45, 80, 22, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .cta-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #1a3d0f 0%, #2d5016 100%);
+            transform: translateY(-5px) scale(1.08);
+            box-shadow: 0 12px 35px rgba(45, 80, 22, 0.5), 0 0 30px rgba(45, 80, 22, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .slide-indicators {
+            position: absolute; bottom: 30px; left: 50%;
+            transform: translateX(-50%); display: flex; gap: 10px; z-index: 3;
+        }
+
+        .indicator {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.6);
+            cursor: pointer; transition: all 0.3s;
+        }
+
+        .indicator.active {
+            background: white;
+            width: 28px; border-radius: 5px;
+        }
+
+        /* === Sections === */
+        section {
+            max-width: 1400px; margin: 5rem auto; padding: 0 3rem;
+        }
+
+        section.hero {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            font-size: 2.4rem; margin-bottom: 1rem; color: #2d5016; text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center; color: #4a5568; font-size: 1.15rem;
+            margin-bottom: 3rem; max-width: 700px; margin-left: auto; margin-right: auto;
+        }
+
+        /* === Services === */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2.5rem;
+        }
+        
+        .services-intro {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, rgba(45, 80, 22, 0.05), rgba(74, 124, 40, 0.05));
+            border-radius: 20px;
+            border: 1px solid rgba(45, 80, 22, 0.1);
+        }
+        
+        .services-intro h3 {
+            font-size: 2rem;
+            color: #2d5016;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .services-intro p {
+            font-size: 1.1rem;
+            color: #4a5568;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 14px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.3s ease;
+            text-align: center;
+            border-top: 4px solid #4a7c28;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .service-card:hover::before {
+            left: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .service-icon svg {
+            width: 35px;
+            height: 35px;
+            fill: #2d5016;
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            color: #2d5016;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: #4a5568;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* === Products === */
+        .products-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem; margin-top: 2.5rem;
+            justify-items: center;
+        }
+
+        .product-card {
+            background: white; border-radius: 14px; overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+            cursor: pointer;
+            width: 100%;
+            max-width: 380px;
+            position: relative;
+            border: 1px solid rgba(45, 80, 22, 0.1);
+        }
+        
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #2d5016, #4a7c28, #81c784);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .product-card:hover .product-icon {
+            transform: scale(1.1);
+        }
+
+        .product-icon {
+            height: 200px; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            transition: transform 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.1);
+        }
+        
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(45, 80, 22, 0.8), rgba(74, 124, 40, 0.6));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-icon svg {
+            width: 80px; height: 80px; fill: #2d5016;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .product-info { padding: 1.6rem; }
+        .product-info h3 { font-size: 1.4rem; margin-bottom: 0.6rem; color: #2d5016; }
+        .product-info p { color: #4a5568; margin-bottom: 0.6rem; font-size: 0.95rem; }
+        .product-price { font-size: 1.25rem; font-weight: 700; color: #e53e3e; margin-top: 1rem; }
+
+        /* === About === */
+        .about-content {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; margin-top: 2.5rem;
+        }
+
+        .about-image {
+            height: 420px; border-radius: 14px;
+            background: url('1.jpg') center/cover no-repeat;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        
+        .about-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+        }
+
+        .about-text h3 { font-size: 1.7rem; margin: 1.4rem 0 0.8rem; color: #2d5016; }
+        .about-text p { margin-bottom: 1.2rem; color: #4a5568; font-size: 1rem; }
+
+        /* === Gallery === */
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.8rem; margin-top: 2.5rem;
+        }
+
+        .gallery-item {
+            border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            background: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gallery-image-wrapper {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gallery-image-wrapper::after {
+            content: 'View Details';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(45, 80, 22, 0.85);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            pointer-events: none;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .gallery-item:hover .gallery-image-wrapper::after {
+            opacity: 1;
+        }
+
+        .gallery-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-caption {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .gallery-caption h4 {
+            font-size: 1.1rem;
+            color: #2d5016;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .gallery-caption p {
+            font-size: 0.9rem;
+            color: #4a5568;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .gallery-read-more {
+            color: #2d5016;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: gap 0.3s ease;
+        }
+
+        .gallery-read-more:hover {
+            gap: 0.6rem;
+        }
+
+        .gallery-read-more::after {
+            content: '→';
+            font-size: 1.1rem;
+        }
+
+        .gallery-button-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .secondary-button {
+            display: inline-block;
+            background: transparent;
+            color: #2d5016;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border: 2px solid #2d5016;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .secondary-button:hover {
+            background: #2d5016;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(45, 80, 22, 0.3);
+        }
+
+        /* === Contact === */
+        .contact-container {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 2.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .contact-info {
+            background: #f8fafc; padding: 2rem; border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .contact-info h3 {
+            color: #2d5016; margin-bottom: 1.5rem; font-size: 1.6rem;
+        }
+
+        .contact-item {
+            display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.4rem;
+        }
+
+        .contact-icon {
+            width: 24px; height: 24px; margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .contact-icon svg {
+            width: 100%; height: 100%; fill: #4a7c28;
+        }
+
+        .contact-form {
+            background: white; padding: 2rem; border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .form-group { margin-bottom: 1.4rem; }
+        .form-group label {
+            display: block; margin-bottom: 0.5rem; font-weight: 600; color: #2d3748;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%; padding: 0.85rem; border: 1px solid #cbd5e0;
+            border-radius: 8px; font-size: 1rem; font-family: inherit;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        
+        /* Touch-friendly form elements */
+        @media (max-width: 768px) {
+            .form-group input,
+            .form-group textarea {
+                padding: 1rem;
+                font-size: 1rem;
+                min-height: 44px;
+            }
+            
+            .form-group textarea {
+                min-height: 120px;
+                resize: vertical;
+            }
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none; border-color: #4a7c28;
+            box-shadow: 0 0 0 3px rgba(74, 124, 40, 0.15);
+        }
+
+        .submit-btn {
+            background: #4a7c28; color: white; padding: 1rem;
+            border: none; border-radius: 8px; font-size: 1.05rem;
+            font-weight: 600; cursor: pointer; width: 100%;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover { background: #3d6620; }
+
+        /* === Map === */
+        .map-container {
+            width: 100%;
+            margin-top: 3rem;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 450px;
+            border: 0;
+            display: block;
+        }
+
+        /* === Footer === */
+        footer {
+            background: #1a2910; color: #e2e8f0; text-align: center;
+            padding: 2.5rem 2rem; margin-top: 5rem;
+        }
+
+        footer p { margin-bottom: 0.6rem; font-size: 1rem; }
+
+        .social-links {
+            display: flex; justify-content: center; gap: 1.6rem; margin: 1.5rem 0;
+        }
+
+        .social-icon {
+            display: flex; align-items: center; justify-content: center;
+            width: 48px; height: 48px; border-radius: 50%;
+            background: rgba(255,255,255,0.1); color: white;
+            text-decoration: none; transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background: rgba(255,255,255,0.25); transform: translateY(-4px);
+        }
+
+        .social-icon svg {
+            width: 24px; height: 24px; fill: white;
+        }
+
+        /* === Mobile Menu === */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .mobile-menu-toggle.active {
+            transform: rotate(90deg);
+        }
+
+        /* === Responsive Design === */
+        
+        /* Large tablets and small desktops */
+        @media (max-width: 1200px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+            
+            section {
+                padding: 0 2rem;
+            }
+        }
+        
+        /* Tablets */
+        @media (max-width: 968px) {
+            nav {
+                padding: 0 1.5rem;
+            }
+
+            .nav-links {
+                gap: 1.2rem;
+            }
+
+            .nav-links a {
+                font-size: 0.95rem;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 2rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 2rem;
+            }
+            
+            .about-content {
+                gap: 2.5rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        /* Mobile devices */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                background: linear-gradient(135deg, #2d5016 0%, #4a7c28 100%);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 2rem;
+                gap: 2.5rem;
+                transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.5rem;
+                font-weight: 600;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                transition: all 0.3s ease;
+                text-align: center;
+                min-width: 200px;
+            }
+            
+            .nav-links a:hover {
+                background: rgba(255, 255, 255, 0.1);
+                transform: translateY(-2px);
+            }
+
+            .hero {
+                height: 100vh;
+                min-height: 600px;
+            }
+            
+            .hero h1 { 
+                font-size: 2.5rem;
+                letter-spacing: -0.01em;
+                margin-bottom: 1rem;
+                line-height: 1.2;
+            }
+            
+            .hero p { 
+                font-size: 1.1rem;
+                font-weight: 500;
+                margin-bottom: 2rem;
+            }
+            
+            .typewriter {
+                font-size: 1rem;
+                white-space: normal;
+                text-align: center;
+                border-right: none;
+                animation: none;
+                line-height: 1.5;
+            }
+            
+            .typewriter-container {
+                min-height: auto;
+                padding: 0 1rem;
+            }
+            
+            .cta-button { 
+                padding: 1rem 2.5rem; 
+                font-size: 1rem;
+                font-weight: 700;
+                margin-top: 1rem;
+            }
+            
+            .about-content, .contact-container { 
+                grid-template-columns: 1fr; 
+                gap: 2rem; 
+            }
+            
+            .about-image {
+                height: 300px;
+                order: -1;
+            }
+            
+            h2 { 
+                font-size: 2rem;
+                font-weight: 700;
+                margin-bottom: 1rem;
+            }
+            
+            .section-subtitle { 
+                font-size: 1rem;
+                font-weight: 400;
+                margin-bottom: 2rem;
+            }
+            
+            section { 
+                margin: 2rem auto; 
+                padding: 0 1.5rem; 
+            }
+            
+            .logo { 
+                font-size: 1.2rem;
+                font-weight: 700;
+            }
+            
+            .logo-image {
+                height: 40px;
+            }
+            
+            .theme-toggle { 
+                padding: 0.5rem 1rem; 
+                font-size: 0.9rem;
+                font-weight: 500;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .service-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .contact-form, .contact-info {
+                padding: 1.5rem;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            .stat-label {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* === Statistics Section === */
+        .stats-section {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c28 100%);
+            padding: 4rem 2rem;
+            margin: 0;
+            color: white;
+        }
+        
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 1.5rem;
+        }
+        
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #ffffff, #a7d9b1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            .stat-label {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            .hero {
+                min-height: 500px;
+            }
+            
+            .hero h1 { 
+                font-size: 1.8rem;
+                font-weight: 800;
+                letter-spacing: -0.01em;
+                margin-bottom: 0.8rem;
+            }
+            
+            .hero p { 
+                font-size: 0.95rem;
+                font-weight: 500;
+                line-height: 1.6;
+            }
+            
+            .hero-content {
+                padding: 1rem;
+            }
+            
+            .cta-button {
+                padding: 0.8rem 2rem;
+                font-size: 0.9rem;
+                margin-top: 1.5rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0 0.5rem;
+            }
+            
+            .product-card {
+                max-width: 100%;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            h2 { 
+                font-size: 1.6rem;
+                font-weight: 700;
+                margin-bottom: 0.8rem;
+            }
+            
+            .section-subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .logo { 
+                font-size: 1rem;
+                font-weight: 700;
+            }
+            
+            .logo-image {
+                height: 35px;
+            }
+            
+            nav {
+                padding: 0 1rem;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .stats-section {
+                padding: 2rem 1rem;
+            }
+            
+            .stat-item {
+                padding: 1rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+                font-weight: 800;
+            }
+            
+            .stat-label {
+                font-size: 0.8rem;
+            }
+            
+            section {
+                margin: 1.5rem auto;
+                padding: 0 1rem;
+            }
+            
+            .services-intro {
+                padding: 2rem 1.5rem;
+                margin-bottom: 2rem;
+            }
+            
+            .services-intro h3 {
+                font-size: 1.5rem;
+            }
+            
+            .services-intro p {
+                font-size: 1rem;
+            }
+            
+            .service-card {
+                padding: 1.5rem 1rem;
+            }
+            
+            .service-card h3 {
+                font-size: 1.2rem;
+            }
+            
+            .contact-form, .contact-info {
+                padding: 1rem;
+            }
+            
+            .form-group input,
+            .form-group textarea {
+                padding: 0.7rem;
+                font-size: 0.9rem;
+            }
+            
+            .submit-btn {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .about-image {
+                height: 250px;
+            }
+            
+            .gallery-caption {
+                padding: 1rem;
+            }
+            
+            .gallery-caption h4 {
+                font-size: 1rem;
+            }
+            
+            .gallery-caption p {
+                font-size: 0.85rem;
+            }
+        }
+        
+        /* Extra small devices */
+        @media (max-width: 360px) {
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+            
+            .hero p {
+                font-size: 0.85rem;
+            }
+            
+            .cta-button {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.85rem;
+            }
+            
+            h2 {
+                font-size: 1.4rem;
+            }
+            
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            
+            .services-intro h3 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader-wrapper" id="loader">
+        <div class="loader"></div>
+        <div class="loader-text">Mujisunge Farm</div>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="LOGO.jpg" alt="Mujisunge Farm Logo" class="logo-image">
+                <span>Mujisunge Farm</span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                ☰
+            </button>
+            <button class="theme-toggle" id="themeToggle">
+                <span id="themeIcon">🌙</span>
+            </button>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-slideshow">
+            <div class="hero-slide slide1 active"></div>
+            <div class="hero-slide slide2"></div>
+            <div class="hero-slide slide3"></div>
+            <div class="hero-slide slide4"></div>
+        </div>
+        <div class="hero-content">
+            <h1>Welcome to Mujisunge Farm</h1>
+            <div class="typewriter-container">
+                <p class="typewriter">Premium organic produce • Sustainably grown • Hand-harvested with care • Fresh from our fields to your table</p>
+            </div>
+            <a href="#contact" class="cta-button">Contact Us</a>
+        </div>
+        <div class="slide-indicators">
+            <div class="indicator active" data-slide="0"></div>
+            <div class="indicator" data-slide="1"></div>
+            <div class="indicator" data-slide="2"></div>
+            <div class="indicator" data-slide="3"></div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-item fade-in stagger-1">
+                <div class="stat-number">25+</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-item fade-in stagger-2">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Happy Customers</div>
+            </div>
+            <div class="stat-item fade-in stagger-3">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Organic Certified</div>
+            </div>
+            <div class="stat-item fade-in stagger-4">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Crop Varieties</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <h2 class="fade-in">Our Services</h2>
+        <p class="section-subtitle fade-in">Comprehensive agricultural solutions tailored to your needs</p>
+        
+        <div class="services-intro fade-in">
+            <h3>Why Choose Mujisunge Farm?</h3>
+            <p>With decades of experience in sustainable agriculture, we combine traditional farming wisdom with modern techniques to deliver exceptional results. Our commitment to quality and environmental stewardship sets us apart in the agricultural industry.</p>
+        </div>
+        
+        <div class="services-grid">
+            <div class="service-card fade-in stagger-1">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 18c-3.86-.96-7-5.54-7-10V8.3l7-3.5 7 3.5V10c0 4.46-3.14 9.04-7 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                </div>
+                <h3>Organic Farming</h3>
+                <p>We practice sustainable organic farming methods, ensuring all our produce is grown without harmful pesticides or synthetic fertilizers.</p>
+            </div>
+
+            <div class="service-card fade-in stagger-2">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/></svg>
+                </div>
+                <h3>Farm Consultancy</h3>
+                <p>Expert agricultural advice and consultancy services to help you optimize your farming operations and increase productivity.</p>
+            </div>
+
+            <div class="service-card fade-in stagger-3">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+                </div>
+                <h3>Seasonal Planning</h3>
+                <p>Strategic crop planning and seasonal guidance to maximize yields and ensure year-round productivity on your farm.</p>
+            </div>
+
+            <div class="service-card fade-in stagger-4">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+                </div>
+                <h3>Distribution Network</h3>
+                <p>Reliable distribution and delivery services connecting our fresh produce directly to local markets and customers.</p>
+            </div>
+
+            <div class="service-card fade-in stagger-5">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                </div>
+                <h3>Quality Assurance</h3>
+                <p>Rigorous quality control and testing to ensure every product meets the highest standards of freshness and safety.</p>
+            </div>
+
+            <div class="service-card fade-in stagger-6">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                </div>
+                <h3>Custom Orders</h3>
+                <p>Flexible bulk ordering and customized produce packages for restaurants, retailers, and special events.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="products">
+        <h2 class="fade-in">Our Fresh Produce</h2>
+        <p class="section-subtitle fade-in">Harvested at peak ripeness for maximum flavor and nutrition</p>
+        <div class="products-grid">
+            <!-- Sweet Corn -->
+            <div class="product-card fade-in stagger-1">
+                <div class="product-icon">
+                    <img src="3.jpg" alt="Fresh Sweet Corn" class="product-image">
+                    <div class="product-overlay">View Details</div>
+                </div>
+                <div class="product-info">
+                    <h3>Sweet Corn</h3>
+                    <p>Fresh sweet corn harvested at peak ripeness. Perfect for grilling or boiling.</p>
+                    <p><strong>Available:</strong> June - September</p>
+                    <div class="product-price">$4.99/dozen</div>
+                </div>
+            </div>
+
+            <!-- Organic Vegetables -->
+            <div class="product-card fade-in stagger-2">
+                <div class="product-icon">
+                    <img src="2.jpg" alt="Organic Vegetables" class="product-image">
+                    <div class="product-overlay">View Details</div>
+                </div>
+                <div class="product-info">
+                    <h3>Organic Vegetables</h3>
+                    <p>Fresh mixed vegetables grown without pesticides or synthetic fertilizers.</p>
+                    <p><strong>Available:</strong> Year-round</p>
+                    <div class="product-price">$3.49/lb</div>
+                </div>
+            </div>
+
+            <!-- Premium Crops -->
+            <div class="product-card fade-in stagger-3">
+                <div class="product-icon">
+                    <img src="4.jpg" alt="Premium Farm Crops" class="product-image">
+                    <div class="product-overlay">View Details</div>
+                </div>
+                <div class="product-info">
+                    <h3>Premium Crops</h3>
+                    <p>High-quality seasonal crops grown with sustainable farming practices.</p>
+                    <p><strong>Available:</strong> July - October</p>
+                    <div class="product-price">$5.99/lb</div>
+                </div>
+            </div>
+
+            <!-- Fresh Greens -->
+            <div class="product-card fade-in stagger-4">
+                <div class="product-icon">
+                    <img src="1.jpg" alt="Fresh Farm Greens" class="product-image">
+                    <div class="product-overlay">View Details</div>
+                </div>
+                <div class="product-info">
+                    <h3>Fresh Greens</h3>
+                    <p>Crisp, nutritious greens perfect for salads and healthy meals.</p>
+                    <p><strong>Available:</strong> Spring & Fall</p>
+                    <div class="product-price">$2.99/bunch</div>
+                </div>
+            </div>
+
+            <!-- Root Vegetables -->
+            <div class="product-card fade-in stagger-5">
+                <div class="product-icon">
+                    <img src="3.jpg" alt="Root Vegetables" class="product-image">
+                    <div class="product-overlay">View Details</div>
+                </div>
+                <div class="product-info">
+                    <h3>Root Vegetables</h3>
+                    <p>Hearty root vegetables including potatoes, carrots, and turnips.</p>
+                    <p><strong>Available:</strong> Year-round</p>
+                    <div class="product-price">$2.49/lb</div>
+                </div>
+            </div>
+
+            <!-- Seasonal Harvest -->
+            <div class="product-card fade-in stagger-6">
+                <div class="product-icon">
+                    <img src="4.jpg" alt="Seasonal Harvest" class="product-image">
+                    <div class="product-overlay">View Details</div>
+                </div>
+                <div class="product-info">
+                    <h3>Seasonal Harvest</h3>
+                    <p>Rotating selection of seasonal produce at peak freshness and flavor.</p>
+                    <p><strong>Available:</strong> Seasonal</p>
+                    <div class="product-price">Market Price</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="fade-in">About Our Farm</h2>
+        <p class="section-subtitle fade-in">Three generations of sustainable farming excellence</p>
+        <div class="about-content">
+            <div class="about-image fade-in-left"></div>
+            <div class="about-text fade-in-right">
+                <h3>Our Story</h3>
+                <p>Mujisunge Farm has been a family-owned operation dedicated to sustainable agriculture. What started as a small plot has grown into a thriving farm that serves our local community with pride.</p>
+                <h3>Our Practices</h3>
+                <p>We believe in sustainable farming practices that respect the land and produce the healthiest crops possible. Our methods combine traditional farming wisdom with modern agricultural science.</p>
+                <h3>Our Commitment</h3>
+                <p>We're committed to providing fresh, quality produce while maintaining environmental stewardship. Every crop is grown with care, ensuring you receive the best products nature has to offer.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <h2 class="fade-in">Farm Gallery</h2>
+        <p class="section-subtitle fade-in">A glimpse into our daily harvest and care</p>
+        <div class="gallery-grid">
+            <div class="gallery-item fade-in stagger-1">
+                <div class="gallery-image-wrapper">
+                    <img src="1.jpg" alt="Mujisunge Farm - Main Field View" loading="lazy">
+                </div>
+                <div class="gallery-caption">
+                    <h4>Our Main Fields</h4>
+                    <p>Expansive farmland where we grow our premium crops with sustainable practices.</p>
+                    <a href="#gallery" class="gallery-read-more">Read More</a>
+                </div>
+            </div>
+            <div class="gallery-item fade-in stagger-2">
+                <div class="gallery-image-wrapper">
+                    <img src="2.jpg" alt="Mujisunge Farm - Crop Cultivation" loading="lazy">
+                </div>
+                <div class="gallery-caption">
+                    <h4>Crop Cultivation</h4>
+                    <p>Carefully tended crops growing in our nutrient-rich soil under optimal conditions.</p>
+                    <a href="#gallery" class="gallery-read-more">Read More</a>
+                </div>
+            </div>
+            <div class="gallery-item fade-in stagger-3">
+                <div class="gallery-image-wrapper">
+                    <img src="3.jpg" alt="Mujisunge Farm - Harvest Season" loading="lazy">
+                </div>
+                <div class="gallery-caption">
+                    <h4>Harvest Season</h4>
+                    <p>The rewarding time when our hard work pays off with bountiful, quality harvests.</p>
+                    <a href="#gallery" class="gallery-read-more">Read More</a>
+                </div>
+            </div>
+            <div class="gallery-item fade-in stagger-4">
+                <div class="gallery-image-wrapper">
+                    <img src="4.jpg" alt="Mujisunge Farm - Sustainable Farming" loading="lazy">
+                </div>
+                <div class="gallery-caption">
+                    <h4>Sustainable Practices</h4>
+                    <p>Our commitment to environmental stewardship through responsible farming methods.</p>
+                    <a href="#gallery" class="gallery-read-more">Read More</a>
+                </div>
+            </div>
+            <div class="gallery-item fade-in stagger-5">
+                <div class="gallery-image-wrapper">
+                    <img src="1.jpg" alt="Mujisunge Farm - Quality Produce" loading="lazy">
+                </div>
+                <div class="gallery-caption">
+                    <h4>Quality Assurance</h4>
+                    <p>Every crop is carefully monitored to ensure the highest quality standards.</p>
+                    <a href="#gallery" class="gallery-read-more">Read More</a>
+                </div>
+            </div>
+            <div class="gallery-item fade-in stagger-6">
+                <div class="gallery-image-wrapper">
+                    <img src="2.jpg" alt="Mujisunge Farm - Farm Operations" loading="lazy">
+                </div>
+                <div class="gallery-caption">
+                    <h4>Daily Operations</h4>
+                    <p>Behind the scenes of our daily farming operations and care for the land.</p>
+                    <a href="#gallery" class="gallery-read-more">Read More</a>
+                </div>
+            </div>
+        </div>
+        <div class="gallery-button-container fade-in">
+            <a href="#gallery" class="secondary-button">View More Photos</a>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="fade-in">Contact Us</h2>
+        <p class="section-subtitle fade-in">Have questions or want to place a bulk order? Reach out!</p>
+        <div class="contact-container">
+            <div class="contact-info fade-in-left">
+                <h3>Get In Touch</h3>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    </div>
+                    <div><strong>Address</strong><br>123 Farm Road, Lusaka, Zambia</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    </div>
+                    <div><strong>Phone</strong><br>+260 XXX XXX XXX</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    </div>
+                    <div><strong>Email</strong><br>info@mujisungefarm.com</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg>
+                    </div>
+                    <div><strong>Hours</strong><br>Mon–Sat: 7:00 AM – 6:00 PM<br>Sunday: Closed</div>
+                </div>
+            </div>
+
+            <div class="contact-form fade-in-right">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Name *</label>
+                        <input type="text" id="name" name="name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+        <div class="map-container fade-in">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d245968.40364885465!2d28.156110!3d-15.416667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1940f4a7a0b5c1e5%3A0x7b8e8e8e8e8e8e8e!2sLusaka%2C%20Zambia!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Mujisunge Farm Location">
+            </iframe>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Mujisunge Farm. All rights reserved.</p>
+        <p>Grown with care, delivered with pride</p>
+        <div class="social-links">
+            <a href="https://facebook.com" target="_blank" class="social-icon" title="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.128 22 16.991 22 12z"/></svg>
+            </a>
+            <a href="https://instagram.com" target="_blank" class="social-icon" title="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <a href="https://twitter.com" target="_blank" class="social-icon" title="Twitter">
+                <svg viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+            </a>
+            <a href="https://youtube.com" target="_blank" class="social-icon" title="YouTube">
+                <svg viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+            </a>
+            <a href="https://wa.me/260" target="_blank" class="social-icon" title="WhatsApp">
+                <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Loader
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.classList.add('fade-out');
+            }, 1000);
+        });
+
+        // Mobile Menu Toggle with Enhanced Functionality
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navLinks = document.getElementById('navLinks');
+        const body = document.body;
+
+        function toggleMobileMenu() {
+            const isActive = navLinks.classList.contains('active');
+            navLinks.classList.toggle('active');
+            mobileMenuToggle.classList.toggle('active');
+            mobileMenuToggle.textContent = !isActive ? '✕' : '☰';
+            
+            // Prevent body scroll when menu is open
+            if (!isActive) {
+                body.style.overflow = 'hidden';
+            } else {
+                body.style.overflow = '';
+            }
+        }
+
+        function closeMobileMenu() {
+            navLinks.classList.remove('active');
+            mobileMenuToggle.classList.remove('active');
+            mobileMenuToggle.textContent = '☰';
+            body.style.overflow = '';
+        }
+
+        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (navLinks.classList.contains('active') && 
+                !navLinks.contains(e.target) && 
+                !mobileMenuToggle.contains(e.target)) {
+                closeMobileMenu();
+            }
+        });
+
+        // Close mobile menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+                closeMobileMenu();
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+                closeMobileMenu();
+            }
+        });
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            body.classList.add('dark-theme');
+            themeIcon.textContent = '☀️';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-theme');
+            if (body.classList.contains('dark-theme')) {
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Slideshow
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const indicators = document.querySelectorAll('.indicator');
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(ind => ind.classList.remove('active'));
+            slides[index].classList.add('active');
+            indicators[index].classList.add('active');
+        }
+
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }, 5000);
+
+        indicators.forEach((indicator, i) => {
+            indicator.addEventListener('click', () => {
+                currentSlide = i;
+                showSlide(currentSlide);
+            });
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Form
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you! We\'ll get back to you shortly.');
+            this.reset();
+        });
+
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Touch and Mobile Optimizations
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        // Improve touch scrolling on iOS
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        // Add touch feedback to interactive elements
+        const interactiveElements = document.querySelectorAll('.cta-button, .secondary-button, .submit-btn, .service-card, .product-card, .gallery-item');
+        
+        interactiveElements.forEach(element => {
+            element.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.98)';
+            }, { passive: true });
+            
+            element.addEventListener('touchend', function() {
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            }, { passive: true });
+        });
+
+        // Optimize images for mobile
+        if (window.innerWidth <= 768) {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.loading = 'lazy';
+            });
+        }
+
+        // Mobile-specific slideshow behavior
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const heroSlideshow = document.querySelector('.hero-slideshow');
+
+        if (heroSlideshow) {
+            heroSlideshow.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            heroSlideshow.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, { passive: true });
+
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        // Swipe left - next slide
+                        currentSlide = (currentSlide + 1) % slides.length;
+                    } else {
+                        // Swipe right - previous slide
+                        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                    }
+                    showSlide(currentSlide);
+                }
+            }
+        }
+
+        // Mobile Performance Optimizations
+        function optimizeForMobile() {
+            // Reduce animations on low-end devices
+            if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) {
+                document.documentElement.style.setProperty('--animation-duration', '0.2s');
+            }
+            
+            // Optimize scroll performance
+            let ticking = false;
+            function updateScrollElements() {
+                // Update any scroll-dependent elements here
+                ticking = false;
+            }
+            
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(updateScrollElements);
+                    ticking = true;
+                }
+            }, { passive: true });
+        }
+
+        // Initialize mobile optimizations
+        if (window.innerWidth <= 768) {
+            optimizeForMobile();
+        }
+
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('Service Worker registered successfully:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+
+        // Viewport height fix for mobile browsers
+        function setViewportHeight() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        
+        setViewportHeight();
+        window.addEventListener('resize', setViewportHeight);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setViewportHeight, 100);
+        });
+    </script>
+</body>
+</html>
